@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pom.DesktopPOM;
+import pom.NavigationPOM;
 import pom.ProductPOM;
 
 @Test
@@ -57,7 +59,7 @@ public class TestProduct extends SeleniumConfig
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void selectProductPOMTest()
     {
         try {
@@ -79,6 +81,29 @@ public class TestProduct extends SeleniumConfig
             ex.printStackTrace();
             Assert.fail(ex.getMessage());
         }
+    }
 
+    @Test
+    public void selectProductPOMNavigationTest()
+    {
+        try {
+
+            NavigationPOM _navigationPOM = new NavigationPOM(this);
+
+            DesktopPOM _desktopPOM = _navigationPOM.navigateToDesktopSubmenu("Mac");
+
+            _desktopPOM.addToCart();
+
+            _desktopPOM.goToCart();
+
+            _desktopPOM.viewCart();
+
+            Assert.assertEquals(_desktopPOM.tblAddedProductElement.getText(), "iMac");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            Assert.fail(ex.getMessage());
+        }
     }
 }
