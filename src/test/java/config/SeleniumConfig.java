@@ -1,5 +1,6 @@
 package config;
 
+import Util.Utility;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,7 +18,9 @@ public abstract class SeleniumConfig {
 
     public WebDriver driver;
     public Properties _properties = new Properties();
-    HashMap<String, String> _hashmapAppProp = new HashMap<>();
+    public HashMap<String, String> _hashmapAppProp = new HashMap<>();
+
+    public Utility _utility = new Utility();
 
     public enum eBrowserType
     {

@@ -88,6 +88,8 @@ public class TestProduct extends SeleniumConfig
     {
         try {
 
+            _utility.implictWait(driver, Integer.parseInt(_hashmapAppProp.get("noOfSecondToWait")));
+
             NavigationPOM _navigationPOM = new NavigationPOM(this);
 
             DesktopPOM _desktopPOM = _navigationPOM.navigateToDesktopSubmenu("Mac");
