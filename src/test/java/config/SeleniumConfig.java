@@ -1,5 +1,6 @@
 package config;
 
+import Util.ExcelHelper;
 import Util.Utility;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -10,17 +11,22 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Properties;
 
-public abstract class SeleniumConfig {
+public abstract class   SeleniumConfig {
 
     public WebDriver driver;
     public Properties _properties = new Properties();
     public HashMap<String, String> _hashmapAppProp = new HashMap<>();
+    public String strPathToDatasheet;
+    public JTable _jTableXL;
 
     public Utility _utility = new Utility();
+    public ExcelHelper _excelhelper = new ExcelHelper();
 
     public enum eBrowserType
     {
@@ -33,11 +39,35 @@ public abstract class SeleniumConfig {
         try
         {
             _hashmapAppProp = loadPropertiesFile("/app");
+            strPathToDatasheet = getDirPathToResources() + "DataSheets/";
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
+    }
+
+    public String getDirPathToResources()   //25th Apr. this was the solution to the error
+    {
+        String strDecodePath = null;
+
+        try {
+            String strPath = SeleniumConfig.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            strDecodePath = URLDecoder.decode(strPath, "UTF-8").substring(0, strPath.lastIndexOf("/") -1);
+
+            if (strDecodePath.startsWith("/"))
+            {
+                strDecodePath = strDecodePath.substring(1);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return strDecodePath;
+
     }
 
     private HashMap loadPropertiesFile(String strPathToPropertiesFile)
